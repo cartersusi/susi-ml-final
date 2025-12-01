@@ -1,0 +1,10 @@
+kagglehub
+matplotlib
+torch
+torchinfo
+torchvision
+tqdm
+fastapi
+pillow
+python-multipart
+uvicorn
