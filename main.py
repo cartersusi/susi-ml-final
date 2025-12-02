@@ -2,8 +2,14 @@ import argparse
 import asyncio
 import json
 import sys
+import warnings
 
 import torch
+from PIL import Image, ImageFile
+
+warnings.filterwarnings("ignore", category=UserWarning, module="PIL")
+warnings.filterwarnings("ignore", ".*Truncated File Read.*")
+ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 from data import Dataset, cat_dog_download
 from inference import hostModel, isFile, isPort, runModel
@@ -97,7 +103,7 @@ if __name__ == "__main__":
             image_size = (256, 256)
 
         print(
-            f"Not in Colab with {vram} GB VRAM, using image size: '{image_size[0]}x{image_size[1]}px'"
+            f"Not in Colab with {vram} GB VRAM, default image size: '{image_size[0]}x{image_size[1]}px'"
         )
 
     parser = argparse.ArgumentParser(
@@ -136,5 +142,22 @@ if __name__ == "__main__":
     )
 
     args = parser.parse_args()
+
+    if args.visualize:
+        print("Visualization enabled.")
+
+    if args.inference:
+        print(f"Inferencing the conf['model_path'] model with/on {args.inference}")
+
+    if args.kaggle_creds != conf["kaggle_creds"]:
+        print(
+            f"Kaggle credentials override: {conf['kaggle_creds']} -> {args.kaggle_creds}"
+        )
+
+    if args.models_dir != conf["models_dir"]:
+        print(f"Models directory override: {conf['models_dir']} -> {args.models_dir}")
+
+    if args.image_size[0] != image_size[0]:
+        print(f"Image size override: {image_size} -> {args.image_size}")
 
     main(args, conf=conf)

@@ -1,0 +1,8 @@
+kagglehub 
+matplotlib 
+torch 
+torchinfo 
+torchvision 
+tqdm 
+scikit-learn 
+seaborn

@@ -11,4 +11,8 @@ wheels/
 
 # Project specific
 models/*
-!models/cat_dog_cnn_25.pth
+# !models/cat_dog_cnn_25.pth
+
+models64x64/*
+models128x128/*
+models256x256/*

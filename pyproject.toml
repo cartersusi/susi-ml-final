@@ -9,6 +9,7 @@ dependencies = [
     "kagglehub>=0.3.13",
     "matplotlib>=3.10.7",
     "pillow>=12.0.0",
+    "pip>=25.3",
     "python-multipart>=0.0.20",
     "torch>=2.9.1",
     "torchinfo>=1.8.0",
