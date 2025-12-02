@@ -8,3 +8,5 @@ fastapi
 pillow
 python-multipart
 uvicorn
+seaborn
+scikit-learn
