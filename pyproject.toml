@@ -1,7 +1,7 @@
 [project]
-name = "finalproject"
-version = "0.1.0"
-description = "Add your description here"
+name = "cat-dog-cnn"
+version = "1.0.0"
+description = "Cat vs. Dog Image Classification Using Deep Learning in Python"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
@@ -19,3 +19,6 @@ dependencies = [
     "tqdm>=4.67.1",
     "uvicorn>=0.38.0",
 ]
+
+[tool.setuptools]
+packages = []

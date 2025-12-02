@@ -10,14 +10,9 @@
 
 ## Requirements
 
-[**python3 (venv)**](requirements.txt)
+[**python3 (venv)**](pyproject.toml)
 ```sh
-pip install -r requirements.txt
-```
-***or***\
-[**python3 (uv)**](pyproject.toml)
-```sh
-uv sync
+pip install -e .
 ```
 
 ---
@@ -85,8 +80,11 @@ python3 main.py -im 128x128
 
 ## Commands
 ```sh
-uv sync                                             # download packages
-uv run main.py -o ./models64x64 -im 64x64 -v        # Run the model with visualizations for 64x64 
-uv run main.py -o ./models128x128 -im 128x128 -v    # Run the model with visualizations for 128x128
-uv run main.py -o ./models256x256 -im 256x256 -v    # Run the model with visualizations for 256x256 
+python3 -m venv venv
+source venv/bin/activate
+pip install -e .
+
+python3 main.py -o ./models64x64 -im 64x64 -v        # Run the model with visualizations for 64x64 
+python3 main.py -o ./models128x128 -im 128x128 -v    # Run the model with visualizations for 128x128
+python3 main.py -o ./models256x256 -im 256x256 -v    # Run the model with visualizations for 256x256 
 ```
