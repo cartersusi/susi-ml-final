@@ -11,6 +11,8 @@ wheels/
 
 # Project specific
 models/
-models64x64/
-models128x128/
-models256x256/
+
+models64x64/*.pth
+models128x128/*.pth
+models256x256/*.pth
+!models256x256/cat_dog_cnn_22.pth

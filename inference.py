@@ -9,6 +9,7 @@ from fastapi.responses import JSONResponse
 from PIL import Image
 from torchvision import transforms
 
+from data import Dataset
 from model import CatDogCNN, device
 
 

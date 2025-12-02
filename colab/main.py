@@ -131,7 +131,7 @@ class Dataset:
                 ),  # Apply basic data augmentation (rotation)
                 transforms.ToTensor(),  # Normalize pixel values to [0, 1] range
                 transforms.RandomApply(
-                    [T.GaussianNoise(mean=0.0, sigma=0.20, clip=True)],
+                    [T.GaussianNoise(mean=0.0, sigma=(torch.rand(1) * 0.20 + 0.01).item(), clip=True)],
                     p=0.5,  # Apply max-noise of 0.20 with 50% probability - from Bonus project
                 ),
             ]

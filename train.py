@@ -15,7 +15,6 @@ def train(
 ) -> dict[str, list[Any]]:
     torch.manual_seed(42)
     torch.cuda.manual_seed(42)
-    os.makedirs(models_dir, exist_ok=True)
 
     train_dataloader_augmented = dataset.augment("train")
     val_dataloader_augmented = dataset.augment("val")

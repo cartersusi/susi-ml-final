@@ -1,5 +1,5 @@
 {
-  "models_dir": "/home/archnv/School/FinalProject/models",
+  "models_dir": "/home/archnv/School/FinalProject/models256x256",
   "kaggle_creds": "/home/archnv/.kaggle/kaggle.json",
-  "model_path": "/home/archnv/School/FinalProject/model/cat_dog_cnn_25.pth"
+  "model_path": "/home/archnv/School/FinalProject/models256x256/cat_dog_cnn_22.pth"
 }

@@ -49,4 +49,6 @@ class CatDogCNN(nn.Module):
         return x
 
     def summary(self) -> None:
-        torchinfo.summary(self, input_size=[1, 3, self.imsize[0], self.imsize[1]])
+        torchinfo.summary(
+            self, input_size=[1, 3, self.imsize[0], self.imsize[1]], depth=2
+        )

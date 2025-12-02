@@ -1,11 +1,12 @@
 import argparse
 import asyncio
 import json
+import os
 import sys
 import warnings
 
 import torch
-from PIL import Image, ImageFile
+from PIL import ImageFile
 
 warnings.filterwarnings("ignore", category=UserWarning, module="PIL")
 warnings.filterwarnings("ignore", ".*Truncated File Read.*")
@@ -15,6 +16,7 @@ from data import Dataset, cat_dog_download
 from inference import hostModel, isFile, isPort, runModel
 from model import CatDogCNN, device
 from train import train
+from visualizer import Visualizer
 
 
 def handleData(args: argparse.Namespace) -> Dataset:
@@ -26,14 +28,17 @@ def handleData(args: argparse.Namespace) -> Dataset:
     dataset = Dataset(dataset_path, imsize=args.image_size)
 
     if args.visualize:
-        print("Dataset samples before processing.")
-        dataset.show_samples()
+        dataset.show_samples(
+            os.path.join(args.models_dir, "dataset_samples_before.png")
+        )
 
     dataset.preprocess()
 
     if args.visualize:
-        print("Dataset samples after processing.")
-        dataset.show_samples()
+        dataset.show_samples(
+            os.path.join(args.models_dir, "dataset_samples_after.png"),
+            train_data=True,
+        )
 
     return dataset
 
@@ -69,13 +74,29 @@ def handleInference(args: argparse.Namespace, conf: dict | None = None) -> None:
         asyncio.run(hostModel(model, int(inference_value)))
     elif isFile(inference_value):
         runModel(model, inference_value)
+
+        if args.visualize:
+            with open(os.path.join(args.models_dir, "res.json"), "r") as file:
+                res = json.load(file)
+
+            dataset_path = cat_dog_download(args.kaggle_creds)
+            if dataset_path == "":
+                print("Unable to find or download datset. Exiting...")
+                sys.exit(1)
+
+            dataset = Dataset(dataset_path, imsize=args.image_size)
+            dataset.preprocess()
+
+            visualizer = Visualizer(model, dataset, res, args.models_dir)
+            visualizer.generate_full_report()
+
     else:
         print(
             "Unable to inference model since --inference [value] is neither a port or file."
         )
 
 
-def main(args: argparse.Namespace, conf: dict | None = None) -> None:
+def main(args: argparse.Namespace, conf: dict) -> None:
     if args.inference:
         handleInference(args, conf)
         return
@@ -83,7 +104,12 @@ def main(args: argparse.Namespace, conf: dict | None = None) -> None:
     model = handleModel(args)
 
     res = train(model, dataset, models_dir=args.models_dir)
-    print(res)
+    with open(os.path.join(args.models_dir, "res.json"), "w") as json_file:
+        json.dump(res, json_file, indent=4)
+
+    if args.visualize:
+        visualizer = Visualizer(model, dataset, res, args.models_dir)
+        visualizer.generate_full_report()
 
 
 if __name__ == "__main__":
@@ -159,5 +185,7 @@ if __name__ == "__main__":
 
     if args.image_size[0] != image_size[0]:
         print(f"Image size override: {image_size} -> {args.image_size}")
+
+    os.makedirs(args.models_dir, exist_ok=True)
 
     main(args, conf=conf)

@@ -31,7 +31,7 @@ uv sync
 }
 ```
 
----
+## Usage
 
 [**Params**](main.py#L103)
 
@@ -83,4 +83,10 @@ python3 main.py -o ./models/
 python3 main.py -im 128x128
 ```
 
----
+## Commands
+```sh
+uv sync                                             # download packages
+uv run main.py -o ./models64x64 -im 64x64 -v        # Run the model with visualizations for 64x64 
+uv run main.py -o ./models128x128 -im 128x128 -v    # Run the model with visualizations for 128x128
+uv run main.py -o ./models256x256 -im 256x256 -v    # Run the model with visualizations for 256x256 
+```

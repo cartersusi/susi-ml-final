@@ -24,8 +24,14 @@ class Dataset:
                 ),  # Apply basic data augmentation (rotation)
                 transforms.ToTensor(),  # Normalize pixel values to [0, 1] range
                 transforms.RandomApply(
-                    [T.GaussianNoise(mean=0.0, sigma=0.20, clip=True)],
-                    p=0.5,  # Apply max-noise of 0.20 with 50% probability - from Bonus project
+                    [
+                        T.GaussianNoise(
+                            mean=0.0,
+                            sigma=(torch.rand(1) * 0.20 + 0.01).item(),
+                            clip=True,
+                        )
+                    ],
+                    p=0.5,  # Apply noise of 0.10 with 50% probability - from Bonus project
                 ),
             ]
         )
@@ -78,13 +84,9 @@ class Dataset:
             test_start.indices,
         )
 
-    def show_samples(self, train_data=False):
-        cats = [
-            i for i, (path, label) in enumerate(self.dataset.samples) if "Cat" in path
-        ]
-        dogs = [
-            i for i, (path, label) in enumerate(self.dataset.samples) if "Dog" in path
-        ]
+    def show_samples(self, fpath: str, train_data=False):
+        cats = [i for i, (path, _) in enumerate(self.dataset.samples) if "Cat" in path]
+        dogs = [i for i, (path, _) in enumerate(self.dataset.samples) if "Dog" in path]
 
         sample_cats = random.sample(cats, min(10, len(cats)))
         sample_dogs = random.sample(dogs, min(10, len(dogs)))
@@ -105,7 +107,7 @@ class Dataset:
             ax.axis("off")
 
         plt.tight_layout()
-        plt.show()
+        plt.savefig(fpath)
 
     def augment(self, datatype: str):
         torch.manual_seed(42)
